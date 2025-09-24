@@ -10,7 +10,7 @@ public class EnemyAi : MonoBehaviour
     [SerializeField]List<Transform> WayPoints;
     [SerializeField]int currentWaypoint = 0;
     GameObject target;
-    [SerializeField]bool isleft = true;
+    public bool isleft = true;
     GameObject wayPointParent;
     void Start()
     {

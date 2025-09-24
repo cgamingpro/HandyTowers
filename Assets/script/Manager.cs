@@ -5,10 +5,14 @@ using UnityEngine;
 public class Manager : MonoBehaviour
 {
     public static Manager Instance;
+    public int nextUpgradeCost;
+
+    [SerializeField] ToweUpgrade toweUpgrade;
     
 
     public int coinCount = 0;
 
+    
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -44,6 +48,10 @@ public class Manager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        nextUpgradeCost =  (toweUpgrade.towerLvl + 1) * 100;
+    }
 
     public void ResetCoins()
     {
