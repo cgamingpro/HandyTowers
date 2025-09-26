@@ -39,7 +39,7 @@ public class CoinSpawner : MonoBehaviour
         float x = Random.Range(bounds.min.x,bounds.max.x);
         float z = Random.Range(bounds.min.z,bounds.max.z);
 
-        Vector3 spawnPos = new Vector3(x,0f,z);
+        Vector3 spawnPos = new Vector3(x,0.8f,z);
         Instantiate(CoinPrefab,spawnPos,Quaternion.identity);
     }
 }

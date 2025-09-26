@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class EnemyAi : MonoBehaviour
 {
     NavMeshAgent agent;
-    
+    [SerializeField] Animator enemyAnimator;
     [SerializeField]List<Transform> WayPoints;
     [SerializeField]int currentWaypoint = 0;
     GameObject target;
@@ -50,6 +50,7 @@ public class EnemyAi : MonoBehaviour
             if (currentWaypoint >= WayPoints.Count)
             {
                 currentWaypoint = WayPoints.Count - 1;
+                enemyAnimator.SetBool("attack", true);
               
             }
         }

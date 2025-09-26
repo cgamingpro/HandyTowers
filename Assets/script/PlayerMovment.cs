@@ -9,7 +9,9 @@ public class PlayerMovment : MonoBehaviour
     [Header("Movement Settings")]
     public float speed = 4f;
     [SerializeField] private float rotationSpeed = 500f;
-    [Range(0f, 1f)][SerializeField] float moveSmooth = 0.15f;
+    [SerializeField] float moveSmooth = 0.15f;  
+    [SerializeField] bool isOrtho = false;
+
 
     [Header("Gravity Settings")]
     public float gravity = -20f;           // gravity acceleration (negative)
@@ -22,7 +24,7 @@ public class PlayerMovment : MonoBehaviour
     private float inputX;
     private float inputY;
     Vector3 move;
-
+    Vector3 moveDirection;
     private Camera cam;
     private CharacterController characterController;
 
@@ -49,15 +51,37 @@ public class PlayerMovment : MonoBehaviour
 
     private void HandleMovement()
     {
+        Vector3 camRight = cam.transform.right;
+        camRight.y = 0;
+        camRight.Normalize();
+        Vector3 camForwar = cam.transform.forward;
+        camForwar.y = 0;
+        camForwar.Normalize();
+
         // read input
         inputX = Input.GetAxis("Horizontal");
         inputY = Input.GetAxis("Vertical");
 
-        Vector3 moveDirection = new Vector3(inputX, 0f, inputY);
+        Vector3 movVector = new Vector3(inputX, 0f, inputY);
+        if (isOrtho)
+        {
+            
+
+            //movVector = movVector.normalized;
+            moveDirection = camRight * movVector.x + camForwar * movVector.z;
+        }
+        else if (!isOrtho)
+        {
+            moveDirection = movVector;
+        }
+        //Vector3 moveDirection = new Vector3(inputX, 0f, inputY);
+        
         if (moveDirection.magnitude > 1f) moveDirection.Normalize();
 
         // smooth horizontal movement
-        move = Vector3.Lerp(move, moveDirection, Mathf.Clamp01(moveSmooth));
+        //move = Vector3.Lerp(move, moveDirection, Mathf.Clamp01(moveSmooth));
+        move = Vector3.Lerp(move, moveDirection, 1f - Mathf.Exp(-moveSmooth * Time.deltaTime));
+
 
         // GRAVITY HANDLING
         if (characterController.isGrounded)

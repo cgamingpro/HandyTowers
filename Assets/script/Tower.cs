@@ -35,7 +35,8 @@ public class Tower : MonoBehaviour
         {
             Vector3 dir = curretnTarget.transform.position - currenWeapon.transform.position;
             dir.y = 0;
-            Quaternion lookRot = Quaternion.LookRotation(dir,Vector3.up);
+            //Quaternion lookRot = Quaternion.LookRotation(dir,Vector3.up);
+            Quaternion lookRot = Quaternion.LookRotation(dir);
             currenWeapon.transform.rotation = Quaternion.RotateTowards(currenWeapon.transform.rotation, lookRot, Time.deltaTime * 1000);
         }
 

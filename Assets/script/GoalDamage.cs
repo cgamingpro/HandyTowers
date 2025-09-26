@@ -6,6 +6,7 @@ using UnityEngine;
 public class GoalDamage : MonoBehaviour
 {
     public int health = 100;
+    [SerializeField] GameObject endCanas;
    
 
     [SerializeField] AudioClip audioClip;
@@ -30,5 +31,8 @@ public class GoalDamage : MonoBehaviour
     void GameOver()
     {
         Debug.Log("Game ended my boy");
+        endCanas.SetActive(true);
+        Time.timeScale = 0;
+
     }
 }
