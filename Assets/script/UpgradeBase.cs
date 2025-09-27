@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class UpgradeBase : MonoBehaviour
 {
-    public int upgradeCost;   
+    public int upgradeCost;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip clip;
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Tower"))
@@ -17,6 +19,8 @@ public class UpgradeBase : MonoBehaviour
             {
                 toweUpgrade.UpgradeTheMesh();
                 Manager.Instance.SpendCoins(upgradeCost);
+                audioSource.clip = clip;
+                audioSource.Play();
             }
             else
             {

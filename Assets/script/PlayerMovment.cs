@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+
 using UnityEditor.Rendering;
 using UnityEngine;
 
@@ -11,7 +12,10 @@ public class PlayerMovment : MonoBehaviour
     [SerializeField] private float rotationSpeed = 500f;
     [SerializeField] float moveSmooth = 0.15f;  
     [SerializeField] bool isOrtho = false;
+    [SerializeField] Animator playerController;
+    TowerPickup towerPickup;
 
+    bool isRuuning;
 
     [Header("Gravity Settings")]
     public float gravity = -20f;           // gravity acceleration (negative)
@@ -38,6 +42,7 @@ public class PlayerMovment : MonoBehaviour
     {
         cam = Camera.main;
         characterController = GetComponent<CharacterController>();
+        towerPickup = GetComponent<TowerPickup>();
 
         // Defensive defaults for jams — adjust these in inspector if needed
         if (moveSmooth <= 0f) moveSmooth = 0.15f;
@@ -47,6 +52,15 @@ public class PlayerMovment : MonoBehaviour
     {
         HandleMovement();
         HandleRotation();
+        HandleAnimator();
+    }
+    void HandleAnimator()
+    {
+        if(isRuuning)playerController.SetBool("running",true);
+        else { playerController.SetBool("running",false); }
+
+        if (towerPickup.isHoldingT) playerController.SetBool("carrying", true);
+        else { playerController.SetBool("carrying",false);}
     }
 
     private void HandleMovement()
@@ -61,6 +75,7 @@ public class PlayerMovment : MonoBehaviour
         // read input
         inputX = Input.GetAxis("Horizontal");
         inputY = Input.GetAxis("Vertical");
+        if(inputX + inputY != 0) {isRuuning = true;} else {isRuuning = false;}
 
         Vector3 movVector = new Vector3(inputX, 0f, inputY);
         if (isOrtho)
@@ -81,7 +96,6 @@ public class PlayerMovment : MonoBehaviour
         // smooth horizontal movement
         //move = Vector3.Lerp(move, moveDirection, Mathf.Clamp01(moveSmooth));
         move = Vector3.Lerp(move, moveDirection, 1f - Mathf.Exp(-moveSmooth * Time.deltaTime));
-
 
         // GRAVITY HANDLING
         if (characterController.isGrounded)

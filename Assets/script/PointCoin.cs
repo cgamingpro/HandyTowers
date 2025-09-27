@@ -5,7 +5,8 @@ using UnityEngine;
 public class PointCoin : MonoBehaviour
 {
     public int value = 10;
-
+    [SerializeField] AudioClip pickupclip;
+    AudioSource pickupsource;
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
@@ -14,6 +15,8 @@ public class PointCoin : MonoBehaviour
             if(!towerPickup.isHoldingT)
             {
                 Manager.Instance.AddCoins(value);
+                pickupsource = Manager.Instance.GetComponent<AudioSource>();
+                pickupsource.PlayOneShot(pickupclip);
                 Destroy(gameObject);
             }
             

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
-    [SerializeField] GameObject enemyPrefab;
+    
+    [SerializeField] List<GameObject> eNemyPrefabs;
     [SerializeField] List<GameObject> spawnPoints;
     [SerializeField] float timeToSpawn = 0.3f;
     [SerializeField] float timeTOWave = 3f;
@@ -25,7 +26,7 @@ public class WaveManager : MonoBehaviour
             for (int i = 0; i < enemyCount; i++)
             {
                 Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)].transform;
-                GameObject enm =  Instantiate(enemyPrefab,spawnPoint.position,Quaternion.identity);
+                GameObject enm = Instantiate(eNemyPrefabs[Random.Range(0,eNemyPrefabs.Count)],spawnPoint.position,Quaternion.identity);
                 if(spawnPoint.name == "right")
                 {
                     enm.GetComponent<EnemyAi>().isleft = false;

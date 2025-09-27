@@ -7,14 +7,16 @@ public class BulletOBJ : MonoBehaviour
     public int damge = 45;
     Rigidbody rb;
     [SerializeField] AudioClip hitSOund;
-
+    AudioSource audioSource;
     [SerializeField] GameObject hitParticalefect;
     private void Start()
     {
         rb = transform.GetComponent<Rigidbody>();
+        audioSource = Manager.Instance.GetComponent<AudioSource>();
        
 
     }
+   
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("atleast the check is working");
@@ -30,6 +32,10 @@ public class BulletOBJ : MonoBehaviour
                 Debug.Log("force aded");
             }
             Instantiate(hitParticalefect, transform.position, Quaternion.identity);
+            
+            
+            audioSource.PlayOneShot(hitSOund);
+
             Destroy(this.gameObject);
         }
 

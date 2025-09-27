@@ -259,3 +259,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   value: 30
+  pickupclip: {fileID: 8300000, guid: 0bd478282216943d298e9b5dc2f94fc3, type: 3}
